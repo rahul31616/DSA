@@ -25,7 +25,7 @@ void printArray(const vector<int>& arr) {
 
 int main() {
     // Sample input array
-    vector<int> arr = {1, 2, 3, 4, 6};
+    vector<int> arr = {1, 2, 3, 4, 5};
 
     cout << "Original Array: ";
     printArray(arr);
