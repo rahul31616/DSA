@@ -1,0 +1,27 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    int arr[] = {7, 3, 2, 4, 9, 12, 56};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int m = 3; // Number of students
+
+    if (m == 0 || n == 0 || m > n) {
+        cout << "Invalid input" << endl;
+        return 0;
+    }
+
+    sort(arr, arr + n); // Sort the packets
+
+    int min_diff = arr[m - 1] - arr[0]; // Initial min diff
+
+    for (int i = 1; i + m - 1 < n; i++) {
+        int diff = arr[i + m - 1] - arr[i];
+        if (diff < min_diff)
+            min_diff = diff;
+    }
+
+    cout << "Minimum difference is: " << min_diff << endl;
+    return 0;
+}
