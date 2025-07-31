@@ -1,0 +1,35 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+pair<int, int> findRepeatAndMissing(const vector<int>& nums) {
+    long long n = nums.size();
+    long long sum_n = n * (n + 1) / 2;
+    long long sum_sq_n = n * (n + 1) * (2 * n + 1) / 6;
+
+    long long sum = 0, sum_sq = 0;
+    for (int num : nums) {
+        sum += num;
+        sum_sq += (long long)num * num;
+    }
+
+    long long diff = sum - sum_n;                 // A - B
+    long long sq_diff = sum_sq - sum_sq_n;        // A^2 - B^2 = (A - B)(A + B)
+
+    long long sumAB = sq_diff / diff;             // A + B
+
+    int A = (diff + sumAB) / 2;                   // A = (A - B + A + B)/2
+    int B = A - diff;                             // B = A - (A - B)
+
+    return {A, B};
+}
+
+int main() {
+    vector<int> nums = {3, 1, 2, 5, 3};
+
+    auto result = findRepeatAndMissing(nums);
+    cout << "Repeated number: " << result.first << endl;
+    cout << "Missing number: " << result.second << endl;
+
+    return 0;
+}
