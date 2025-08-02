@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> st;
+
+        for (char c : s) {
+            // Push expected closing bracket for each opening one
+            if (c == '(') st.push(')');
+            else if (c == '{') st.push('}');
+            else if (c == '[') st.push(']');
+            else {
+                // If stack is empty or top doesn't match current char → invalid
+                if (st.empty() || st.top() != c)
+                    return false;
+                st.pop();  // Match found, remove expected closing bracket
+            }
+        }
+
+        // If stack is empty, all brackets matched correctly
+        return st.empty();
+    }
+};
