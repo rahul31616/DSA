@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(const string &s) {
+        vector<int> last(256, -1);    // store last index of every char
+        int maxLen = 0, start = 0;
+
+        for (int end = 0; end < s.size(); ++end) {
+            start = max(start, last[s[end]] + 1);
+            maxLen = max(maxLen, end - start + 1);
+            last[s[end]] = end;
+        }
+        return maxLen;
+    }
+};
+
