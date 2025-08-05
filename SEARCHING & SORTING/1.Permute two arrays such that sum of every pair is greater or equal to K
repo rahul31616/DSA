@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+string isPossible(int A[], int B[], int n, int k) {
+    sort(A, A + n);               // Ascending
+    sort(B, B + n, greater<int>()); // Descending
+
+    for (int i = 0; i < n; i++) {
+        if (A[i] + B[i] < k) {
+            return "No";
+        }
+    }
+    return "Yes";
+}
+
+int main() {
+    int A[] = {2, 1, 3};
+    int B[] = {7, 8, 9};
+    int n = 3;
+    int k = 10;
+
+    cout << isPossible(A, B, n, k) << endl;
+
+    return 0;
+}
