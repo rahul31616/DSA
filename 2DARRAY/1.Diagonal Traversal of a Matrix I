@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void diagonalTraversal(vector<vector<int>>& mat) {
+    int n = mat.size();
+    int m = mat[0].size();
+
+    // Traverse upper diagonals (including main diagonal)
+    for (int col = 0; col < m; col++) {
+        int i = 0, j = col;
+        while (i < n && j >= 0) {
+            cout << mat[i][j] << " ";
+            i++;
+            j--;
+        }
+        cout << endl;
+    }
+
+    // Traverse lower diagonals (excluding main diagonal)
+    for (int row = 1; row < n; row++) {
+        int i = row, j = m - 1;
+        while (i < n && j >= 0) {
+            cout << mat[i][j] << " ";
+            i++;
+            j--;
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    vector<vector<int>> mat = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+
+    diagonalTraversal(mat);
+
+    return 0;
+}
+
