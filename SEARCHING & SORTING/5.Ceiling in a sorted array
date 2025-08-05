@@ -1,0 +1,37 @@
+#include <iostream>
+using namespace std;
+
+int ceilingInSortedArray(int arr[], int n, int x) {
+    int low = 0, high = n - 1;
+    int result = -1;
+
+    while (low <= high) {
+        int mid = (low + high) / 2;
+
+        if (arr[mid] == x)
+            return arr[mid];  // exact match is also ceiling
+
+        if (arr[mid] < x) {
+            low = mid + 1;  // search in right half
+        } else {
+            result = arr[mid];  // possible ceiling
+            high = mid - 1;     // search in left half
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    int arr[] = {1, 2, 8, 10, 10, 12, 19};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int x = 5;
+
+    int ceil = ceilingInSortedArray(arr, n, x);
+    if (ceil != -1)
+        cout << "Ceiling of " << x << " is " << ceil << endl;
+    else
+        cout << "No ceiling found" << endl;
+
+    return 0;
+}
