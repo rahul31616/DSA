@@ -1,0 +1,52 @@
+Input: arr[] = {5, 20, 3, 2, 50, 80}, k = 78  
+Output: Yes → (80 - 2 = 78)
+
+Input: arr[] = {90, 70, 20, 80, 50}, k = 45  
+Output: No
+
+
+#include <iostream>
+#include <unordered_set>
+using namespace std;
+
+bool findPairWithDifference(int arr[], int n, int k) {
+    unordered_set<int> s;
+
+    for (int i = 0; i < n; i++) {
+        if (s.find(arr[i] + k) != s.end() || s.find(arr[i] - k) != s.end())
+            return true;
+        s.insert(arr[i]);
+    }
+
+    return false;
+}
+
+int main() {
+    int arr[] = {5, 20, 3, 2, 50, 80};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int k = 78;
+
+    if (findPairWithDifference(arr, n, k))
+        cout << "Yes, such a pair exists." << endl;
+    else
+        cout << "No, such a pair doesn't exist." << endl;
+
+    return 0;
+}
+
+arr = [5, 20, 3, 2, 50, 80], k = 78
+
+Step 1: s = {}  
+→ 5 → check 5±78 → not found → insert 5  
+→ 20 → check 20±78 → not found → insert 20  
+→ 3 → insert  
+→ 2 → insert  
+→ 50 → insert  
+→ 80 → check if 80 - 78 = 2 in set → YES → return true
+
+ Time and Space Complexity
+Time: O(n)
+
+Space: O(n) for the hash set
+
+
