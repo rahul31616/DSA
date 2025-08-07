@@ -1,0 +1,72 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+    Node(int val) : data(val), next(nullptr) {}
+};
+
+// Function to convert a linked list to a number
+long long listToNumber(Node* head) {
+    long long num = 0;
+    while (head) {
+        num = num * 10 + head->data;
+        head = head->next;
+    }
+    return num;
+}
+
+// Function to convert number to linked list
+Node* numberToList(long long num) {
+    if (num == 0) return new Node(0);
+
+    Node* prev = nullptr;
+    while (num > 0) {
+        int digit = num % 10;
+        Node* newNode = new Node(digit);
+        newNode->next = prev;
+        prev = newNode;
+        num /= 10;
+    }
+    return prev;
+}
+
+// Multiply two linked lists
+Node* multiplyLists(Node* l1, Node* l2) {
+    long long num1 = listToNumber(l1);
+    long long num2 = listToNumber(l2);
+
+    long long product = num1 * num2;
+
+    return numberToList(product);
+}
+
+// Print list
+void printList(Node* head) {
+    while (head) {
+        cout << head->data;
+        head = head->next;
+    }
+    cout << endl;
+}
+
+// Sample usage
+int main() {
+    // 3 -> 4 -> 2 (represents 342)
+    Node* l1 = new Node(3);
+    l1->next = new Node(4);
+    l1->next->next = new Node(2);
+
+    // 4 -> 6 -> 5 (represents 465)
+    Node* l2 = new Node(4);
+    l2->next = new Node(6);
+    l2->next->next = new Node(5);
+
+    Node* result = multiplyLists(l1, l2);
+
+    cout << "Product: ";
+    printList(result);  // Output: 1 5 9 0 3 0
+
+    return 0;
+}
