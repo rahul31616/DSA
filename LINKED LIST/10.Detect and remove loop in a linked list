@@ -1,0 +1,39 @@
+class Solution {
+public:
+    void removeLoop(ListNode* head) {
+        if (!head || !head->next) return;
+
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        // Step 1: Detect loop
+        bool hasLoop = false;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+
+            if (slow == fast) {
+                hasLoop = true;
+                break;
+            }
+        }
+
+        if (!hasLoop) return; // No loop
+
+        // Step 2: Find start of loop
+        slow = head;
+        if (slow == fast) {
+            // Loop starts at head
+            while (fast->next != slow)
+                fast = fast->next;
+        } else {
+            while (slow->next != fast->next) {
+                slow = slow->next;
+                fast = fast->next;
+            }
+        }
+
+        // Step 3: Remove loop
+        fast->next = NULL;
+    }
+};
