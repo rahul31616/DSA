@@ -1,0 +1,16 @@
+class Node {
+public:
+    int data;
+    Node* next;
+    Node(int x) : data(x), next(nullptr) {}
+};
+
+void deleteNode(Node* delNode) {
+    // Cannot delete if it's the last node or null
+    if (!delNode || !(delNode->next)) return;
+
+    Node* temp = delNode->next;
+    delNode->data = temp->data;
+    delNode->next = temp->next;
+    delete temp;
+}
