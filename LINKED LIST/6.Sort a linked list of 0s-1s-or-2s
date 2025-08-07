@@ -1,0 +1,59 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+    Node(int x) : data(x), next(nullptr) {}
+};
+
+// Function to sort 0s, 1s, and 2s
+void sortList(Node* head) {
+    int count[3] = {0}; // count[0] for 0s, count[1] for 1s, count[2] for 2s
+
+    Node* temp = head;
+    while (temp) {
+        count[temp->data]++;
+        temp = temp->next;
+    }
+
+    temp = head;
+    int i = 0;
+    while (temp) {
+        if (count[i] == 0)
+            ++i;
+        else {
+            temp->data = i;
+            --count[i];
+            temp = temp->next;
+        }
+    }
+}
+
+// Helper to print the linked list
+void printList(Node* head) {
+    while (head) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+// Sample usage
+int main() {
+    Node* head = new Node(1);
+    head->next = new Node(2);
+    head->next->next = new Node(0);
+    head->next->next->next = new Node(1);
+    head->next->next->next->next = new Node(2);
+
+    cout << "Original List: ";
+    printList(head);
+
+    sortList(head);
+
+    cout << "Sorted List: ";
+    printList(head);
+
+    return 0;
+}
