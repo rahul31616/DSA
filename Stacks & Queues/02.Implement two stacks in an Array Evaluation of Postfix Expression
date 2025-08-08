@@ -1,0 +1,61 @@
+#include <iostream>
+using namespace std;
+
+class TwoStacks {
+    int* arr;
+    int size, top1, top2;
+
+public:
+    TwoStacks(int n) {
+        size = n;
+        arr = new int[n];
+        top1 = -1;
+        top2 = size;
+    }
+
+    void push1(int x) {
+        if (top1 + 1 == top2) {
+            cout << "Stack Overflow in Stack1\n";
+            return;
+        }
+        arr[++top1] = x;
+    }
+
+    void push2(int x) {
+        if (top1 + 1 == top2) {
+            cout << "Stack Overflow in Stack2\n";
+            return;
+        }
+        arr[--top2] = x;
+    }
+
+    int pop1() {
+        if (top1 == -1) {
+            cout << "Stack Underflow in Stack1\n";
+            return -1;
+        }
+        return arr[top1--];
+    }
+
+    int pop2() {
+        if (top2 == size) {
+            cout << "Stack Underflow in Stack2\n";
+            return -1;
+        }
+        return arr[top2++];
+    }
+};
+
+int main() {
+    TwoStacks ts(10);
+
+    ts.push1(1);
+    ts.push2(10);
+    ts.push1(2);
+    ts.push2(9);
+
+    cout << ts.pop1() << endl; // Output: 2
+    cout << ts.pop2() << endl; // Output: 9
+
+    return 0;
+}
