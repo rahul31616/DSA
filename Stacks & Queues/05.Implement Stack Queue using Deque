@@ -1,0 +1,55 @@
+#include <iostream>
+#include <deque>
+using namespace std;
+
+class MyQueue {
+    deque<int> dq;
+public:
+    // Add element to the back of queue
+    void enqueue(int x) {
+        dq.push_back(x);
+    }
+
+    // Remove element from front of queue
+    void dequeue() {
+        if (dq.empty()) {
+            cout << "Queue is empty\n";
+            return;
+        }
+        dq.pop_front();
+    }
+
+    // Get front element
+    int front() {
+        if (dq.empty()) {
+            cout << "Queue is empty\n";
+            return -1; // or throw exception
+        }
+        return dq.front();
+    }
+
+    // Check if queue is empty
+    bool empty() {
+        return dq.empty();
+    }
+};
+
+int main() {
+    MyQueue q;
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+
+    cout << q.front() << endl;  // 10
+    q.dequeue();
+
+    cout << q.front() << endl;  // 20
+    q.dequeue();
+
+    cout << q.front() << endl;  // 30
+    q.dequeue();
+
+    cout << (q.empty() ? "Queue is empty" : "Not empty") << endl;  // Queue is empty
+
+    return 0;
+}
