@@ -1,0 +1,52 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+class Stack {
+    queue<int> q;
+
+public:
+    void push(int x) {
+        int size = q.size();
+        q.push(x);
+
+        // Move all elements before x to the back
+        for (int i = 0; i < size; i++) {
+            q.push(q.front());
+            q.pop();
+        }
+    }
+
+    void pop() {
+        if (q.empty()) {
+            cout << "Stack Underflow\n";
+            return;
+        }
+        q.pop();
+    }
+
+    int top() {
+        if (q.empty()) {
+            cout << "Stack is empty\n";
+            return -1;
+        }
+        return q.front();
+    }
+
+    bool empty() {
+        return q.empty();
+    }
+};
+
+int main() {
+    Stack st;
+    st.push(10);
+    st.push(20);
+    st.push(30);
+
+    cout << st.top() << endl; // 30
+    st.pop();
+    cout << st.top() << endl; // 20
+    st.pop();
+    cout << st.top() << endl; // 10
+}
