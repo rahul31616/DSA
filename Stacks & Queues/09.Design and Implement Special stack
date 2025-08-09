@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class SpecialStack {
+    stack<int> mainStack;
+    stack<int> minStack;
+
+public:
+    void push(int x) {
+        mainStack.push(x);
+        if (minStack.empty() || x <= minStack.top()) {
+            minStack.push(x);
+        }
+    }
+
+    void pop() {
+        if (mainStack.empty()) return;
+        int topVal = mainStack.top();
+        mainStack.pop();
+        if (topVal == minStack.top()) {
+            minStack.pop();
+        }
+    }
+
+    int top() {
+        if (mainStack.empty()) return -1;
+        return mainStack.top();
+    }
+
+    int getMin() {
+        if (minStack.empty()) return -1;
+        return minStack.top();
+    }
+
+    bool empty() {
+        return mainStack.empty();
+    }
+};
+
+int main() {
+    SpecialStack s;
+    s.push(5);
+    s.push(2);
+    s.push(10);
+    s.push(1);
+    
+    cout << "Min: " << s.getMin() << endl; // 1
+    s.pop();
+    cout << "Min: " << s.getMin() << endl; // 2
+}
