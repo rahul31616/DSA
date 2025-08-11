@@ -1,0 +1,47 @@
+      1
+     / \
+    2   3
+   / \     \
+  4   5     6
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val) : data(val), left(NULL), right(NULL) {}
+};
+
+bool checkLeafLevel(Node* root, int level, int &leafLevel) {
+    if (!root) return true;
+
+    // If leaf node
+    if (!root->left && !root->right) {
+        if (leafLevel == -1) {
+            leafLevel = level; // store first leaf's level
+        }
+        return level == leafLevel;
+    }
+
+    // Check both subtrees
+    return checkLeafLevel(root->left, level + 1, leafLevel) &&
+           checkLeafLevel(root->right, level + 1, leafLevel);
+}
+
+bool checkLeavesSameLevel(Node* root) {
+    int leafLevel = -1; // unset initially
+    return checkLeafLevel(root, 0, leafLevel);
+}
+
+int main() {
+    Node* root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->left->right = new Node(5);
+    root->right->right = new Node(6);
+
+    cout << (checkLeavesSameLevel(root) ? "Yes" : "No");
+}
