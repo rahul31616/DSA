@@ -1,0 +1,48 @@
+Method 1: BFS Approach
+class Solution {
+public:
+    Node* cloneGraph(Node* node) {
+        if (!node) return nullptr;
+
+        unordered_map<Node*, Node*> clones;
+        queue<Node*> q;
+        q.push(node);
+        clones[node] = new Node(node->val);
+
+        while (!q.empty()) {
+            Node* curr = q.front(); q.pop();
+            for (Node* nei : curr->neighbors) {
+                if (!clones.count(nei)) {
+                    clones[nei] = new Node(nei->val);
+                    q.push(nei);
+                }
+                clones[curr]->neighbors.push_back(clones[nei]);
+            }
+        }
+        return clones[node];
+    }
+};
+
+
+Method 2: DFS (Recursive)
+class Solution {
+public:
+    Node* cloneGraph(Node* node) {
+        if (!node) return nullptr;
+        unordered_map<Node*, Node*> clones;
+        return dfs(node, clones);
+    }
+
+private:
+    Node* dfs(Node* node, unordered_map<Node*, Node*>& clones) {
+        if (clones.count(node)) return clones[node];
+
+        Node* copy = new Node(node->val);
+        clones[node] = copy;
+
+        for (Node* nei : node->neighbors) {
+            copy->neighbors.push_back(dfs(nei, clones));
+        }
+        return copy;
+    }
+};
