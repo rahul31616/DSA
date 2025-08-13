@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int countTrianglesOptimal(vector<vector<int>>& adj) {
+    int V = adj.size();
+    vector<vector<int>> A2(V, vector<int>(V, 0)), A3(V, vector<int>(V, 0));
+
+    // Multiply A * A = A2
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            for (int k = 0; k < V; k++) {
+                A2[i][j] += adj[i][k] * adj[k][j];
+            }
+        }
+    }
+
+    // Multiply A2 * A = A3
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            for (int k = 0; k < V; k++) {
+                A3[i][j] += A2[i][k] * adj[k][j];
+            }
+        }
+    }
+
+    // Count triangles
+    int trace = 0;
+    for (int i = 0; i < V; i++) {
+        trace += A3[i][i];
+    }
+
+    return trace / 6;
+}
+
+int main() {
+    int V = 4;
+    vector<vector<int>> adj = {
+        {0, 1, 1, 0},
+        {1, 0, 1, 1},
+        {1, 1, 0, 1},
+        {0, 1, 1, 0}
+    };
+
+    cout << "Triangles: " << countTrianglesOptimal(adj) << endl;
+    return 0;
+}
