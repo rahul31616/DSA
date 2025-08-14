@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int rec(int i, int W, int N, vector<int>& val, vector<int>& wt, vector<vector<int>>& dp) {
+        if (i == N) return 0; // No more items
+        if (dp[i][W] != -1) return dp[i][W]; // Already computed
+
+        int take = 0;
+        if (wt[i] <= W)
+            take = val[i] + rec(i, W - wt[i], N, val, wt, dp); // Stay at same i for unbounded
+
+        int notTake = rec(i + 1, W, N, val, wt, dp);
+        return dp[i][W] = max(take, notTake);
+    }
+
+    int unboundedKnapsack(int N, int W, vector<int>& val, vector<int>& wt) {
+        vector<vector<int>> dp(N, vector<int>(W + 1, -1));
+        return rec(0, W, N, val, wt, dp);
+    }
+};
+
+int main() {
+    int N = 2; // Number of items
+    int W = 100; // Capacity of knapsack
+    vector<int> val = {1, 30}; // Values
+    vector<int> wt = {1, 50};  // Weights
+
+    Solution sol;
+    cout << sol.unboundedKnapsack(N, W, val, wt) << endl;
+    return 0;
+}
