@@ -1,0 +1,19 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int maxDifference(string s) {
+    int current_sum = 0, max_sum = 0;
+    for (char c : s) {
+        current_sum += (c == '0') ? 1 : -1;
+        current_sum = max(current_sum, 0); // reset if negative
+        max_sum = max(max_sum, current_sum);
+    }
+    return (max_sum == 0) ? -1 : max_sum;
+}
+
+int main() {
+    string s;
+    cin >> s;
+    cout << maxDifference(s) << "\n";
+    return 0;
+}
