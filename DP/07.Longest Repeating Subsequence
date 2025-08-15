@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    // Tabulation (2D DP)
+    int longestRepeatingSubsequence2D(const string &s) {
+        int n = s.size();
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (s[i-1] == s[j-1] && i != j)
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                else
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+        return dp[n][n];
+    }
+
+    // Space-optimized (1D DP)
+    int longestRepeatingSubsequence(const string &s) {
+        int n = s.size();
+        vector<int> curr(n + 1, 0);
+        for (int i = 1; i <= n; i++) {
+            int match = 0;
+            for (int j = 1; j <= n; j++) {
+                int temp = curr[j];
+                if (s[i-1] == s[j-1] && i != j)
+                    curr[j] = 1 + match;
+                else
+                    curr[j] = max(curr[j], curr[j - 1]);
+                match = temp;
+            }
+        }
+        return curr[n];
+    }
+};
+
+int main() {
+    string s;
+    cin >> s;
+    Solution sol;
+    cout << sol.longestRepeatingSubsequence(s) << endl;
+    return 0;
+}
