@@ -1,0 +1,32 @@
+Simple Recursion (Exponential Time)  
+
+int countRecur(int n, int i, vector<int>& points) {
+    if (n == 0) return 1;
+    if (n < 0 || i == points.size()) return 0;
+    return countRecur(n - points[i], i, points)      // Take points[i]
+         + countRecur(n, i + 1, points);             // Skip points[i]
+}
+
+int countWays(int n) {
+    vector<int> points = {3, 5, 10};
+    return countRecur(n, 0, points);
+}
+
+
+2. Top-Down DP with Memoization (O(n) Time & Space)
+
+Memoize subproblems defined by (n, i):
+
+int countRecur(int n, int i, vector<int>& points, vector<vector<int>>& memo) {
+    if (n == 0) return 1;
+    if (n < 0 || i == points.size()) return 0;
+    if (memo[n][i] != -1) return memo[n][i];
+    return memo[n][i] = countRecur(n - points[i], i, points, memo)
+                      + countRecur(n, i + 1, points, memo);
+}
+
+int countWays(int n) {
+    vector<int> points = {3, 5, 10};
+    vector<vector<int>> memo(n + 1, vector<int>(points.size(), -1));
+    return countRecur(n, 0, points, memo);
+}
