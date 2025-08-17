@@ -1,0 +1,26 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function to copy set bits in range [l, r] from y to x
+int copySetBits(int x, int y, int l, int r) {
+    // Step 1: Create a mask with bits l to r set
+    int mask = ((1 << (r - l + 1)) - 1) << (l - 1);
+
+    // Step 2: Extract bits from y using mask
+    int bits = y & mask;
+
+    // Step 3: OR them with x to copy bits
+    x = x | bits;
+
+    return x;
+}
+
+int main() {
+    int x = 10, y = 13, l = 1, r = 32;
+
+    cout << "Before: " << x << endl;
+    x = copySetBits(x, y, l, r);
+    cout << "After copying set bits from y to x: " << x << endl;
+
+    return 0;
+}
