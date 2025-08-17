@@ -1,0 +1,23 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int longestSubseqDiffOne(const vector<int>& arr) {
+    unordered_map<int, int> um;
+    int maxLen = 0;
+
+    for (int x : arr) {
+        int len = 0;
+        if (um.count(x - 1)) len = max(len, um[x - 1]);
+        if (um.count(x + 1)) len = max(len, um[x + 1]);
+        um[x] = len + 1;
+        maxLen = max(maxLen, um[x]);
+    }
+
+    return maxLen;
+}
+
+int main() {
+    vector<int> arr = {10, 9, 4, 5, 4, 8, 6};
+    cout << longestSubseqDiffOne(arr) << endl;  // Outputs: 3
+    return 0;
+}
