@@ -1,0 +1,19 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        return (n > 0) && ((n & (n - 1)) == 0);
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;  // Input: any non-negative integer
+
+    Solution sol;
+    cout << (sol.isPowerOfTwo(n) ? "Yes" : "No") << "\n";
+    return 0;
+}
+
