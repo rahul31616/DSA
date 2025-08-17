@@ -1,0 +1,24 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+long long countTotalSetBits(long long n) {
+    n++;  // Include zero to align blocks
+    long long total = 0;
+    for (int i = 0; (1LL << i) < n; i++) {
+        long long blockSize = 1LL << (i + 1);
+        long long completeBlocks = n / blockSize;
+        total += completeBlocks * (blockSize / 2);
+
+        long long remainder = n % blockSize;
+        if (remainder > (blockSize / 2))
+            total += remainder - (blockSize / 2);
+    }
+    return total;
+}
+
+int main() {
+    long long n;
+    cin >> n;
+    cout << countTotalSetBits(n) << "\n";
+    return 0;
+}
