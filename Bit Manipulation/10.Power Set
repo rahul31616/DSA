@@ -1,0 +1,34 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void backtrack(int idx, vector<int>& arr, vector<int>& current, vector<vector<int>>& res) {
+    if (idx == arr.size()) {
+        res.push_back(current);
+        return;
+    }
+    // Exclude arr[idx]
+    backtrack(idx + 1, arr, current, res);
+
+    // Include arr[idx]
+    current.push_back(arr[idx]);
+    backtrack(idx + 1, arr, current, res);
+    current.pop_back();
+}
+
+vector<vector<int>> powerSetRecursive(vector<int>& arr) {
+    vector<vector<int>> res;
+    vector<int> current;
+    backtrack(0, arr, current, res);
+    return res;
+}
+
+int main() {
+    vector<int> arr = {1, 2, 3};
+    auto subsets = powerSetRecursive(arr);
+    for (const auto& s : subsets) {
+        cout << "[";
+        for (int x : s) cout << x << " ";
+        cout << "]\n";
+    }
+    return 0;
+}
