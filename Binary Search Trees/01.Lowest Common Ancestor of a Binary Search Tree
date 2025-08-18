@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// Definition for a binary tree node.
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        TreeNode* cur = root;
+        while (cur) {
+            if (cur->val > p->val && cur->val > q->val) {
+                cur = cur->left;
+            } else if (cur->val < p->val && cur->val < q->val) {
+                cur = cur->right;
+            } else {
+                return cur; // Found the split point
+            }
+        }
+        return nullptr;
+    }
+};
+
+// Utility function to insert nodes in BST
+TreeNode* insertBST(TreeNode* root, int val) {
+    if (!root) return new TreeNode(val);
+    if (val < root->val) root->left = insertBST(root->left, val);
+    else root->right = insertBST(root->right, val);
+    return root;
+}
+
+// Utility function to search a node in BST
+TreeNode* searchBST(TreeNode* root, int val) {
+    if (!root || root->val == val) return root;
+    if (val < root->val) return searchBST(root->left, val);
+    return searchBST(root->right, val);
+}
+
+int main() {
+    /* Build the BST
+               6
+             /   \
+            2     8
+           / \   / \
+          0   4 7   9
+             / \
+            3   5
+    */
+    vector<int> values = {6,2,8,0,4,7,9,3,5};
+    TreeNode* root = nullptr;
+    for (int v : values) {
+        root = insertBST(root, v);
+    }
+
+    Solution sol;
+
+    TreeNode* p = searchBST(root, 2);
+    TreeNode* q = searchBST(root, 8);
+
+    TreeNode* ans = sol.lowestCommonAncestor(root, p, q);
+
+    if (ans) cout << "Lowest Common Ancestor of " << p->val << " and " << q->val 
+                  << " is: " << ans->val << endl;
+    else cout << "No LCA found." << endl;
+
+    return 0;
+}
