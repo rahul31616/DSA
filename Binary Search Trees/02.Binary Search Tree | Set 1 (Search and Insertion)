@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// BST node structure
+struct Node {
+    int key;
+    Node* left;
+    Node* right;
+    Node(int val) : key(val), left(nullptr), right(nullptr) {}
+};
+
+// Recursive insertion into BST
+Node* insertBST(Node* root, int key) {
+    if (!root) return new Node(key);
+    if (key < root->key)
+        root->left = insertBST(root->left, key);
+    else if (key > root->key)
+        root->right = insertBST(root->right, key);
+    // If equal, do nothing (no duplicates)
+    return root;
+}
+
+// Recursive search in BST
+bool searchBST(Node* root, int key) {
+    if (!root) return false;
+    if (root->key == key) return true;
+    return key < root->key ? searchBST(root->left, key) 
+                           : searchBST(root->right, key);
+}
+
+// In-order traversal to display BST
+void inorder(Node* root) {
+    if (!root) return;
+    inorder(root->left);
+    cout << root->key << " ";
+    inorder(root->right);
+}
+
+int main() {
+    Node* root = nullptr;
+    vector<int> values = {50, 30, 70, 20, 40, 60, 80};
+    
+    // Insert values
+    for (int val : values) {
+        root = insertBST(root, val);
+    }
+    
+    cout << "BST inorder traversal: ";
+    inorder(root);
+    cout << "\n";
+    
+    vector<int> searchKeys = {60, 25};
+    for (int key : searchKeys) {
+        cout << "Search " << key << ": "
+             << (searchBST(root, key) ? "Found" : "Not Found") << "\n";
+    }
+    
+    return 0;
+}
