@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// BST node definition
+struct Node {
+    int data;
+    Node *left, *right;
+    Node(int val): data(val), left(nullptr), right(nullptr) {}
+};
+
+// Insert into BST helper
+Node* insertBST(Node* root, int key) {
+    if (!root) return new Node(key);
+    if (key < root->data) root->left = insertBST(root->left, key);
+    else if (key > root->data) root->right = insertBST(root->right, key);
+    return root;
+}
+
+// Range-based recursive dead-end check
+bool dfs(Node* root, int minVal, int maxVal) {
+    if (!root) return false;
+    if (!root->left && !root->right && minVal == maxVal)
+        return true;
+    return dfs(root->left, minVal, root->data - 1)
+        || dfs(root->right, root->data + 1, maxVal);
+}
+
+bool isDeadEnd(Node* root) {
+    return dfs(root, 1, INT_MAX);
+}
+
+int main() {
+    // Example 1: contains dead end
+    vector<int> vals1 = {8, 5, 9, 2, 7, 1};
+    Node* root1 = nullptr;
+    for (int v : vals1) root1 = insertBST(root1, v);
+    cout << (isDeadEnd(root1) ? "true\n" : "false\n");
+
+    // Example 2: no dead end
+    vector<int> vals2 = {8, 7, 10, 2, 9, 13};
+    Node* root2 = nullptr;
+    for (int v : vals2) root2 = insertBST(root2, v);
+    cout << (isDeadEnd(root2) ? "true\n" : "false\n");
+
+    return 0;
+}
