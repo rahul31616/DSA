@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// BST node definition
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val) : data(val), left(nullptr), right(nullptr) {}
+};
+
+// Iterative method: O(h) time, O(1) extra space
+int findMinIterative(Node* root) {
+    if (!root) return -1;  // Empty tree
+    
+    Node* curr = root;
+    while (curr->left) {
+        curr = curr->left;
+    }
+    return curr->data;
+}
+
+// Recursive method: O(h) time, O(h) recursion stack
+int findMinRecursive(Node* root) {
+    if (!root) return -1;          // Empty tree
+    if (!root->left) return root->data;
+    return findMinRecursive(root->left);
+}
+
+// Helper: Insert into BST
+Node* insertBST(Node* root, int key) {
+    if (!root) return new Node(key);
+    if (key < root->data)
+        root->left = insertBST(root->left, key);
+    else if (key > root->data)
+        root->right = insertBST(root->right, key);
+    return root;
+}
+
+// In-order traversal for validation
+void inorder(Node* root) {
+    if (!root) return;
+    inorder(root->left);
+    cout << root->data << ' ';
+    inorder(root->right);
+}
+
+int main() {
+    // Build example BST:
+    //          5
+    //        /   \
+    //       3     7
+    //      /     / \
+    //     2     6   8
+    Node* root = nullptr;
+    vector<int> values = {5, 3, 7, 2, 6, 8};
+    for (int v : values) {
+        root = insertBST(root, v);
+    }
+
+    cout << "In-order traversal (sorted): ";
+    inorder(root);
+    cout << "\n";
+
+    cout << "Minimum element (iterative): " << findMinIterative(root) << "\n";
+    cout << "Minimum element (recursive): " << findMinRecursive(root) << "\n";
+
+    return 0;
+}
