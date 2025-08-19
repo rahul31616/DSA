@@ -1,0 +1,67 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// BST Node definition
+struct Node {
+    int key;
+    Node *left, *right;
+    Node(int x): key(x), left(nullptr), right(nullptr) {}
+};
+
+// Insert a value into BST
+Node* insertBST(Node* root, int key) {
+    if (!root) return new Node(key);
+    if (key < root->key)
+        root->left = insertBST(root->left, key);
+    else if (key > root->key)
+        root->right = insertBST(root->right, key);
+    return root; // ignore duplicates
+}
+
+// Find predecessor and successor of key in BST
+void findPreSuc(Node* root, Node*& pre, Node*& suc, int key) {
+    while (root) {
+        if (root->key == key) {
+            if (root->left) {
+                Node* tmp = root->left;
+                while (tmp->right) tmp = tmp->right;
+                pre = tmp;
+            }
+            if (root->right) {
+                Node* tmp = root->right;
+                while (tmp->left) tmp = tmp->left;
+                suc = tmp;
+            }
+            break;
+        } else if (root->key > key) {
+            suc = root;
+            root = root->left;
+        } else {
+            pre = root;
+            root = root->right;
+        }
+    }
+}
+
+int main() {
+    /*
+              50
+             /  \
+           30    70
+          / \   / \
+         20 40 60 80
+    */
+    vector<int> vals = {50, 30, 70, 20, 40, 60, 80};
+    Node* root = nullptr;
+    for (int v : vals) root = insertBST(root, v);
+
+    int key = 65;
+    Node *pre = nullptr, *suc = nullptr;
+    findPreSuc(root, pre, suc, key);
+
+    cout << "For key = " << key << ":\n";
+    cout << "Predecessor = " << (pre ? to_string(pre->key) : "-1") << "\n";
+    cout << "Successor   = " << (suc ? to_string(suc->key) : "-1") << "\n";
+
+    return 0;
+}
