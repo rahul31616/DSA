@@ -1,0 +1,49 @@
+Recursive Implementation in C++
+/**
+ * Definition for a BST node.
+ */
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val): data(val), left(nullptr), right(nullptr) {}
+};
+
+int kthLargestUtil(Node* root, int& count, int k) {
+    if (!root) return -1;
+    // Explore the right subtree first (larger values)
+    int rightVal = kthLargestUtil(root->right, count, k);
+    if (rightVal != -1) return rightVal;
+
+    count++;
+    if (count == k) return root->data;
+
+    return kthLargestUtil(root->left, count, k);
+}
+
+int kthLargest(Node* root, int k) {
+    int count = 0;
+    return kthLargestUtil(root, count, k);
+}
+
+Iterative Stack-Based Implementation
+int kthLargestIterative(Node* root, int k) {
+    stack<Node*> st;
+    Node* curr = root;
+
+    while (curr || !st.empty()) {
+        while (curr) {
+            st.push(curr);
+            curr = curr->right;  // go as far right as possible
+        }
+
+        curr = st.top();
+        st.pop();
+        k--;
+        if (k == 0) return curr->data;
+
+        curr = curr->left;
+    }
+
+    return -1;
+}
