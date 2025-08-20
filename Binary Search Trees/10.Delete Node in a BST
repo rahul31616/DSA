@@ -1,0 +1,46 @@
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if (!root) return nullptr;
+
+        if (key < root->val) {
+            root->left = deleteNode(root->left, key);
+        }
+        else if (key > root->val) {
+            root->right = deleteNode(root->right, key);
+        }
+        else {
+            // Node found: handle deletion
+
+            // Case 1: No left child
+            if (!root->left) {
+                return root->right;
+            }
+            // Case 2: No right child
+            if (!root->right) {
+                return root->left;
+            }
+
+            // Case 3: Two children
+            TreeNode* minNode = getMin(root->right);
+            root->val = minNode->val;
+            root->right = deleteNode(root->right, minNode->val);
+        }
+        return root;
+    }
+
+private:
+    TreeNode* getMin(TreeNode* node) {
+        while (node->left) {
+            node = node->left;
+        }
+        return node;
+    }
+};
