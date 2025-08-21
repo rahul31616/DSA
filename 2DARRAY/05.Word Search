@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        int m = board.size(), n = board[0].size();
+        for (int i = 0; i < m; ++i)
+            for (int j = 0; j < n; ++j)
+                if (board[i][j] == word[0] && dfs(board, word, 0, i, j))
+                    return true;
+        return false;
+    }
+
+private:
+    bool dfs(vector<vector<char>>& board, const string& word,
+             int idx, int i, int j) {
+        if (idx == (int)word.size()) return true;
+        int m = board.size(), n = board[0].size();
+        if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] != word[idx])
+            return false;
+
+        char backup = board[i][j];
+        board[i][j] = '#';  // mark as visited
+
+        static const int dirs[4][2] = {{1,0},{-1,0},{0,1},{0,-1}};
+        for (auto& d : dirs) {
+            if (dfs(board, word, idx + 1, i + d[0], j + d[1]))
+                return true;
+        }
+
+        board[i][j] = backup;  // backtrack
+        return false;
+    }
+};
