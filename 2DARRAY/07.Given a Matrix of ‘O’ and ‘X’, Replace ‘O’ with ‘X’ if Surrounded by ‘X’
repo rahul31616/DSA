@@ -1,0 +1,30 @@
+void floodFill(vector<vector<char>>& mat, int i, int j, char from, char to) {
+    int m = mat.size(), n = mat[0].size();
+    if (i<0 || i>=m || j<0 || j>=n || mat[i][j]!=from) return;
+    mat[i][j] = to;
+    floodFill(mat, i+1, j, from, to);
+    floodFill(mat, i-1, j, from, to);
+    floodFill(mat, i, j+1, from, to);
+    floodFill(mat, i, j-1, from, to);
+}
+
+void replaceSurrounded(vector<vector<char>>& mat) {
+    int m = mat.size(), n = mat[0].size();
+    for (auto &row : mat) 
+        for (char &c : row)
+            if (c == 'O') 
+                c = '-';
+
+    for (int i = 0; i < m; i++) {
+        if (mat[i][0] == '-') floodFill(mat, i, 0, '-', 'O');
+        if (mat[i][n-1] == '-') floodFill(mat, i, n-1, '-', 'O');
+    }
+    for (int j = 0; j < n; j++) {
+        if (mat[0][j] == '-') floodFill(mat, 0, j, '-', 'O');
+        if (mat[m-1][j] == '-') floodFill(mat, m-1, j, '-', 'O');
+    }
+
+    for (auto &row : mat)
+        for (char &c : row)
+            if (c == '-') c = 'X';
+}
