@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<char>> createMatrix(int m, int n) {
+        vector<vector<char>> a(m, vector<char>(n));
+        int top = 0, bottom = m - 1;
+        int left = 0, right = n - 1;
+        char cur = 'X';
+
+        while (top <= bottom && left <= right) {
+            for (int j = left; j <= right; ++j)
+                a[top][j] = cur;
+            top++;
+
+            for (int i = top; i <= bottom; ++i)
+                a[i][right] = cur;
+            right--;
+
+            if (top <= bottom) {
+                for (int j = right; j >= left; --j)
+                    a[bottom][j] = cur;
+                bottom--;
+            }
+
+            if (left <= right) {
+                for (int i = bottom; i >= top; --i)
+                    a[i][left] = cur;
+                left++;
+            }
+
+            cur = (cur == 'X') ? '0' : 'X';
+        }
+
+        return a;
+    }
+};
