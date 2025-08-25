@@ -1,0 +1,23 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int maxActivities(vector<int>& start, vector<int>& finish) {
+    int n = start.size();
+    vector<pair<int,int>> activities(n);
+    for (int i = 0; i < n; ++i)
+        activities[i] = {finish[i], start[i]};
+
+    sort(activities.begin(), activities.end());  // sort by finish time
+
+    int count = 1;  // pick the first activity
+    int lastFinish = activities[0].first;
+
+    for (int i = 1; i < n; ++i) {
+        if (activities[i].second >= lastFinish) {
+            count++;
+            lastFinish = activities[i].first;
+        }
+    }
+
+    return count;
+}
