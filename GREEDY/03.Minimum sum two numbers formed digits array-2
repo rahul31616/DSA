@@ -1,0 +1,8 @@
+int findMinCoins(int n, const vector<int>& denom) {
+    int count = 0;
+    for (int i = denom.size() - 1; i >= 0; --i) {
+        count += n / denom[i];      // how many coins of this denom
+        n %= denom[i];              // remaining amount
+    }
+    return count;
+}
