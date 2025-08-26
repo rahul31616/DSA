@@ -1,0 +1,11 @@
+int findMin(int n, vector<int>& denom) {
+    int count = 0;
+    // Go from largest coin to smallest
+    for (int i = denom.size() - 1; i >= 0; --i) {
+        while (n >= denom[i]) {
+            n -= denom[i];
+            count++;
+        }
+    }
+    return count;
+}
