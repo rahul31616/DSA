@@ -1,0 +1,33 @@
+int maxEqualSum(vector<int>& s1, vector<int>& s2, vector<int>& s3) {
+    // Step 1: Calculate total sum of each stack
+    int sum1 = accumulate(s1.begin(), s1.end(), 0);
+    int sum2 = accumulate(s2.begin(), s2.end(), 0);
+    int sum3 = accumulate(s3.begin(), s3.end(), 0);
+
+    // Step 2: Initialize top pointers for all stacks (simulate removing from top)
+    int top1 = 0, top2 = 0, top3 = 0;
+
+    while (true) {
+        // If any stack becomes empty, we cannot make equal sum -> return 0
+        if (top1 == s1.size() || top2 == s2.size() || top3 == s3.size())
+            return 0;
+
+        // If all sums are equal, return this sum
+        if (sum1 == sum2 && sum2 == sum3)
+            return sum1;
+
+        // Otherwise, remove from the stack having maximum sum
+        if (sum1 >= sum2 && sum1 >= sum3) {
+            // Remove top element from stack 1
+            sum1 -= s1[top1++];
+        }
+        else if (sum2 >= sum1 && sum2 >= sum3) {
+            // Remove top element from stack 2
+            sum2 -= s2[top2++];
+        }
+        else {
+            // Remove top element from stack 3
+            sum3 -= s3[top3++];
+        }
+    }
+}
