@@ -1,0 +1,19 @@
+int maxLevel(int boxes[], int n) {
+    sort(boxes, boxes + n);
+    int ans = 1;
+    int prevWidth = boxes[0];
+    int prevCount = 1;
+    int currWidth = 0, currCount = 0;
+
+    for (int i = 1; i < n; ++i) {
+        currWidth += boxes[i];
+        currCount++;
+        if (currWidth > prevWidth && currCount > prevCount) {
+            ans++;
+            prevWidth = currWidth;
+            prevCount = currCount;
+            currWidth = currCount = 0;
+        }
+    }
+    return ans;
+}
