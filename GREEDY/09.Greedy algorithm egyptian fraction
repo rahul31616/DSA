@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void egyptianFraction(int n, int d) {
+    if (n == 0 || d == 0) return;  // nothing to do
+
+    if (d % n == 0) {
+        // Remaining fraction is exactly a unit fraction
+        cout << "1/" << d / n;
+        return;
+    }
+
+    if (n % d == 0) {
+        // Fraction is an integer (like 2 or 3)
+        cout << n / d;
+        return;
+    }
+
+    if (n > d) {
+        // If it's an improper fraction
+        cout << n / d << " + ";
+        egyptianFraction(n % d, d);
+        return;
+    }
+
+    // Greedy step: find the next unit fraction
+    int x = d / n + 1;  // same as ceil(d / n)
+    cout << "1/" << x << " + ";
+    egyptianFraction(n * x - d, d * x);
+}
+
+int main() {
+    int numerator = 6, denominator = 14;
+    cout << "Egyptian Fraction for "
+         << numerator << "/" << denominator << " is\n";
+    egyptianFraction(numerator, denominator);
+    return 0;
+}
