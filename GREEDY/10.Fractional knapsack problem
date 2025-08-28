@@ -1,0 +1,31 @@
+double fractionalKnapsack(vector<int>& val, vector<int>& wt, int capacity) {
+    int n = val.size();
+    vector<vector<int>> items(n, vector<int>(2));
+    for (int i = 0; i < n; ++i) {
+        items[i] = {val[i], wt[i]}; // store value and weight
+    }
+
+    // Sort by value-to-weight ratio descending
+    sort(items.begin(), items.end(), [](auto& a, auto& b) {
+        double r1 = (double)a[0] / a[1];
+        double r2 = (double)b[0] / b[1];
+        return r1 > r2;
+    });
+
+    double totalValue = 0.0;
+    int remainingCapacity = capacity;
+
+    for (auto& item : items) {
+        int value = item[0];
+        int weight = item[1];
+        if (weight <= remainingCapacity) {
+            totalValue += value;
+            remainingCapacity -= weight;
+        } else {
+            totalValue += (double)value / weight * remainingCapacity;
+            break;
+        }
+    }
+
+    return totalValue;
+}
