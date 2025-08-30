@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool pairInSortedRotated(vector<int>& arr, int target) {
+    int n = arr.size();
+
+    // 1. Find pivot (smallest element index)
+    int pivot = 0;
+    for (int i = 0; i < n - 1; i++) {
+        if (arr[i] > arr[i + 1]) {
+            pivot = i + 1;
+            break;
+        }
+    }
+
+    // 2. Left = smallest, Right = largest
+    int l = pivot;              
+    int r = (pivot - 1 + n) % n; 
+
+    // 3. Two-pointer search (circular)
+    while (l != r) {
+        int sum = arr[l] + arr[r];
+
+        if (sum == target) return true;
+
+        if (sum < target)
+            l = (l + 1) % n;   // move forward (circular)
+        else
+            r = (r - 1 + n) % n; // move backward (circular)
+    }
+
+    return false;
+}
+
+int main() {
+    vector<int> arr = {11, 15, 6, 8, 9, 10};
+    int target = 16;
+
+    if (pairInSortedRotated(arr, target))
+        cout << "Pair exists\n";
+    else
+        cout << "No pair exists\n";
+
+    return 0;
+}
