@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int minMergeOperations(vector<int>& arr) {
+    int n = arr.size();
+    int l = 0, r = n - 1;
+    int count = 0;
+
+    while (l < r) {
+        if (arr[l] == arr[r]) {
+            l++;
+            r--;
+        }
+        else if (arr[l] < arr[r]) {
+            arr[l + 1] += arr[l];  // merge left with next
+            l++;
+            count++;
+        }
+        else {
+            arr[r - 1] += arr[r];  // merge right with previous
+            r--;
+            count++;
+        }
+    }
+    return count;
+}
+
+int main() {
+    vector<int> arr = {1, 4, 5, 9, 1};
+    cout << "Minimum merge operations = " << minMergeOperations(arr) << endl;
+    return 0;
+}
