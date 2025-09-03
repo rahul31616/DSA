@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        if (t.size() > s.size()) return "";
+
+        // Count frequency of chars in t
+        unordered_map<char, int> need;
+        for (char c : t) need[c]++;
+
+        unordered_map<char, int> window;
+        int have = 0, needCount = need.size();
+
+        int resLen = INT_MAX, resL = 0;
+        int l = 0;
+
+        // Expand window with right pointer
+        for (int r = 0; r < s.size(); r++) {
+            char c = s[r];
+            window[c]++;
+
+            if (need.count(c) && window[c] == need[c])
+                have++;
+
+            // Shrink window when valid
+            while (have == needCount) {
+                if (r - l + 1 < resLen) {
+                    resLen = r - l + 1;
+                    resL = l;
+                }
+                // pop from left
+                window[s[l]]--;
+                if (need.count(s[l]) && window[s[l]] < need[s[l]]) {
+                    have--;
+                }
+                l++;
+            }
+        }
+
+        return resLen == INT_MAX ? "" : s.substr(resL, resLen);
+    }
+};
+
+int main() {
+    Solution sol;
+    cout << sol.minWindow("ADOBECODEBANC", "ABC") << endl; // BANC
+}
