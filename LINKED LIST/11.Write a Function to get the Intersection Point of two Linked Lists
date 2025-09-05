@@ -1,0 +1,56 @@
+Length Difference Method
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        // Step 1: Find lengths
+        int lenA = getLength(headA);
+        int lenB = getLength(headB);
+
+        // Step 2: Align both lists
+        while (lenA > lenB) {
+            headA = headA->next;
+            lenA--;
+        }
+        while (lenB > lenA) {
+            headB = headB->next;
+            lenB--;
+        }
+
+        // Step 3: Traverse until intersection found
+        while (headA != headB) {
+            headA = headA->next;
+            headB = headB->next;
+        }
+
+        return headA; // either intersection node or NULL
+    }
+
+private:
+    int getLength(ListNode* head) {
+        int length = 0;
+        while (head) {
+            length++;
+            head = head->next;
+        }
+        return length;
+    }
+};
+
+(Two Pointers, O(1) Space)
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if (!headA || !headB) return NULL;
+        
+        ListNode *pA = headA, *pB = headB;
+        
+        while (pA != pB) {
+            pA = pA ? pA->next : headB;
+            pB = pB ? pB->next : headA;
+        }
+        
+        return pA; // intersection or NULL
+    }
+};
+
